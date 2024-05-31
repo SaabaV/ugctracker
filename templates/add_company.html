@@ -1,0 +1,69 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Company</title>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/add_company.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'home_page' %}" class="home-link">Home</a>
+        <a href="{% url 'user_profile' %}" class="profile-link">Profile</a>
+        <a href="{% url 'add_company' %}" class="add-company-link">Add Company</a>
+    </nav>
+
+    <div class="container">
+        <h2>Add Company</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% if company_exists %}
+                <p class="error-message">A company with that name already exists.</p>
+            {% endif %}
+            <div class="form-group">
+                {{ form.logo.label_tag }} {{ form.logo }}
+            </div>
+            <h3>Company Information</h3>
+            <div class="form-group">
+                {{ form.name.label_tag }} {{ form.name }}
+            </div>
+            <div class="form-group">
+                {{ form.info.label_tag }} {{ form.info }}
+            </div>
+            <div class="form-group">
+                {{ form.website.label_tag }} {{ form.website }}
+            </div>
+            <div class="form-group">
+                {{ form.email.label_tag }} {{ form.email }}
+            </div>
+            <div class="form-group">
+                {{ form.contact_person.label_tag }} {{ form.contact_person }}
+            </div>
+            <h3>Additional Parameters</h3>
+            <div class="form-group">
+                {{ form.niche.label_tag }} {{ form.niche }}
+            </div>
+            <div class="form-group">
+                {{ form.contacted_via.label_tag }} {{ form.contacted_via }}
+            </div>
+            <hr>
+            <button type="submit">Add Company</button>
+        </form>
+    </div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+

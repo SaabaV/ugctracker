@@ -1,0 +1,65 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <!-- Подключаем стили -->
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'css/home_page.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'home_page' %}" class="home-link">Home</a>
+        <a href="{% url 'user_profile' %}" class="profile-link">Profile</a>
+        <a href="{% url 'add_company' %}" class="add-company-link">Add Company</a>
+    </nav>
+
+    <div class="container">
+        <h2>All Companies</h2>
+        <form method="get" action="{% url 'home_page' %}">
+            {{ form.as_p }}
+            <button type="submit">Search</button>
+        </form>
+        <div class="companies-container">
+            {% for company in companies %}
+                <div class="card">
+                    {% if company.logo %}
+                        <img src="{{ company.logo.url }}" class="card-img-top" alt="{{ company.name }}">
+                    {% else %}
+                        <img src="{% static 'channels4_profile.png' %}" class="card-img-top" alt="Default Logo">
+                    {% endif %}
+                    <div class="card-body">
+                        <h3 class="card-title">{{ company.name }}</h3>
+                        <hr>
+                        <p class="card-text"><strong>Contact Person:</strong> {{ company.contact_person }}</p>
+                        <hr>
+                        <p class="card-text"><strong>Website:</strong> <a href="{{ company.website }}">{{ company.website }}</a></p>
+                        <hr>
+                        <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ company.email }}">{{ company.email }}</a></p>
+                        <hr>
+                        <p class="card-text"><strong>Description:</strong> {{ company.info }}</p>
+                        <hr>
+                        <p class="card-text"><strong>Niche:</strong> {{ company.get_niche_display }}</p>
+                        <form method="post" action="{% url 'add_to_my_company' %}">
+                            {% csrf_token %}
+                            <button type="button" class="btn btn-primary add-to-my-company" data-company-id="{{ company.id }}">Add to my company</button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <!-- Подключаем скрипты -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
+
+
+
+
+
+

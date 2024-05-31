@@ -1,0 +1,249 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile</title>
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home_page' %}" class="home-link">Home</a>
+        <a href="{% url 'user_profile' %}" class="profile-link">Profile</a>
+        <a href="{% url 'add_company' %}" class="add-company-link">Add Company</a>
+        <a href="{% url 'logout' %}" class="logout-link">Logout</a>
+        <form action="{% url 'search' %}" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search companies...">
+            <button type="submit">Search</button>
+        </form>
+    </div>
+    <div class="container">
+        <h2 class="user-profile-title">My Companies</h2>
+        <h3>Welcome, {{ user.username }}!</h3>
+        <hr>
+        <div class="user-profile-container">
+            <div class="user-info-container">
+                <p><strong>Username:</strong> {{ user.username }}</p>
+                <p><strong>My Goal:</strong> {{ user.profile.get_goal_display }}</p>
+                <p><strong>Date of Birth:</strong> {{ user.profile.date_of_birth|default:"None" }}</p>
+                <button id="edit-profile-btn" class="btn btn-warning">Edit Profile</button>
+            </div>
+            <div class="user-avatar-container" id="avatar-container">
+                {% if user.profile.avatar %}
+                    <img src="{{ user.profile.avatar.url }}" class="img-fluid user-avatar" alt="Avatar">
+                {% else %}
+                    <p>No avatar uploaded.</p>
+                {% endif %}
+            </div>
+        </div>
+        <hr>
+        <div id="edit-profile-form" class="hidden">
+            <form id="profile-edit-form" method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="goal-select">My Goal:</label>
+                    <select id="goal-select" name="goal" class="form-control">
+                        <option value="3" {% if user.profile.goal == 3 %}selected{% endif %}>3</option>
+                        <option value="5" {% if user.profile.goal == 5 %}selected{% endif %}>5</option>
+                        <option value="7" {% if user.profile.goal == 7 %}selected{% endif %}>7</option>
+                        <option value="10" {% if user.profile.goal == 10 %}selected{% endif %}>10</option>
+                    </select>
+                    <button id="save-goal-btn" class="btn btn-primary">Save Goal</button>
+                </div>
+                <div class="form-group">
+                    <label for="date-of-birth-input">Date of Birth:</label>
+                    <input type="date" id="date-of-birth-input" name="date_of_birth" class="form-control" value="{{ user.profile.date_of_birth|date:"Y-m-d" }}">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+            </form>
+        </div>
+        <hr>
+        <h4>My Companies:</h4>
+        <div class="row">
+            {% for profile_company in user.profile.profilecompany_set.all %}
+                <div class="col-md-3">
+                    <div class="card mb-4" id="company-{{ profile_company.company.id }}">
+                        <div class="card-body">
+                            {% if profile_company.company.logo %}
+                                <img src="{{ profile_company.company.logo.url }}" class="card-img-top" alt="{{ profile_company.company.name }}">
+                            {% else %}
+                                <img src="{% static 'channels4_profile.png' %}" class="card-img-top" alt="Default Logo">
+                            {% endif %}
+                            <hr>
+                            <h5 class="card-title">
+                                <span class="status-circle 
+                                    {% if profile_company.collaboration_status == "CC" %}
+                                        status-closed
+                                    {% elif profile_company.collaboration_status == "DI" %}
+                                        status-discussion
+                                    {% elif profile_company.collaboration_status == "NC" %}
+                                        status-not-contacted
+                                    {% elif profile_company.collaboration_status == "RE" %}
+                                        status-rejection
+                                    {% endif %}">
+                                </span>
+                                {{ profile_company.company.name }}
+                            </h5>
+                            <hr>
+                            <div class="company-info">
+                                <p class="card-text"><strong>Description:</strong> {{ profile_company.company.info }}</p>
+                                <p class="card-text"><strong>Custom Description:</strong> {{ profile_company.custom_info }}</p>
+                                <div class="additional-info" style="display: none;">
+                                    {% if profile_company.company.website %}
+                                        <hr>
+                                        <p class="card-text"><strong>Website:</strong> <a href="{{ profile_company.company.website }}">{{ profile_company.company.website }}</a></p>
+                                    {% endif %}
+                                    {% if profile_company.company.email %}
+                                        <hr>
+                                        <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ profile_company.company.email }}">{{ profile_company.company.email }}</a></p>
+                                    {% endif %}
+                                    {% if profile_company.company.get_contacted_via_display %}
+                                        <hr>
+                                        <p class="card-text"><strong>Contacted Via:</strong> {{ profile_company.company.get_contacted_via_display }}</p>
+                                    {% endif %}
+                                    {% if profile_company.company.contact_person %}
+                                        <hr>
+                                        <p class="card-text"><strong>Contact Person:</strong> {{ profile_company.company.contact_person }}</p>
+                                    {% endif %}
+                                    {% if profile_company.collaboration_status %}
+                                        <hr>
+                                        <p class="card-text"><strong>Collaboration Status:</strong>
+                                            <span class="status-label
+                                                {% if profile_company.collaboration_status == "CC" %}
+                                                    status-closed
+                                                {% elif profile_company.collaboration_status == "DI" %}
+                                                    status-discussion
+                                                {% elif profile_company.collaboration_status == "NC" %}
+                                                    status-not-contacted
+                                                {% elif profile_company.collaboration_status == "RE" %}
+                                                    status-rejection
+                                                {% endif %}">{{ profile_company.get_collaboration_status_display }}</span>
+                                        </p>
+                                    {% endif %}
+                                    {% if profile_company.company.get_niche_display %}
+                                        <hr>
+                                        <p class="card-text"><strong>Niche:</strong> {{ profile_company.company.get_niche_display }}</p>
+                                    {% endif %}
+                                    {% if profile_company.deal_amount %}
+                                        <hr>
+                                        <p class="card-text">Deal Amount: {{ profile_company.deal_amount }}</p>
+                                    {% endif %}
+                                    {% if profile_company.content_count %}
+                                        <hr>
+                                        <p class="card-text">Content Count: {{ profile_company.content_count }}</p>
+                                    {% endif %}
+                                </div>
+                                <button class="btn btn-primary toggle-info">Show more</button>
+                                <button class="btn btn-warning edit-company" data-company-id="{{ profile_company.company.id }}">Edit</button>
+                                <form method="post" style="display:inline;">
+                                    {% csrf_token %}
+                                    <button class="btn btn-danger delete-company" data-delete-url="{% url 'delete_from_profile' %}" data-company-id="{{ profile_company.company.id }}">Delete</button>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="edit-form-container" id="edit-form-{{ profile_company.company.id }}" style="display: none;">
+                            <form class="edit-company-form" action="{% url 'edit_profile_company' profile_company.id %}" method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <div class="form-group">
+                                    <label for="edit-name-{{ profile_company.id }}">Name:</label>
+                                    <input type="text" id="edit-name-{{ profile_company.id }}" name="name" class="form-control" value="{{ profile_company.company.name }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-info-{{ profile_company.id }}">Info:</label>
+                                    <textarea id="edit-info-{{ profile_company.id }}" name="info" class="form-control">{{ profile_company.company.info }}</textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-website-{{ profile_company.id }}">Website:</label>
+                                    <input type="url" id="edit-website-{{ profile_company.id }}" name="website" class="form-control" value="{{ profile_company.company.website }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-email-{{ profile_company.id }}">Email:</label>
+                                    <input type="email" id="edit-email-{{ profile_company.id }}" name="email" class="form-control" value="{{ profile_company.company.email }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-contact-person-{{ profile_company.id }}">Contact Person:</label>
+                                    <input type="text" id="edit-contact-person-{{ profile_company.id }}" name="contact_person" class="form-control" value="{{ profile_company.company.contact_person }}" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-contacted-via-{{ profile_company.id }}">Contacted Via:</label>
+                                    <select id="edit-contacted-via-{{ profile_company.id }}" name="contacted_via" class="form-control" required>
+                                        {% for choice in profile_company.company.CONTACTED_VIA_CHOICES %}
+                                            <option value="{{ choice.0 }}" {% if profile_company.company.contacted_via == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-collaboration-status-{{ profile_company.id }}">Collaboration Status:</label>
+                                    <select id="edit-collaboration-status-{{ profile_company.id }}" name="collaboration_status" class="form-control" required>
+                                        {% for choice in profile_company.COLLABORATION_STATUS_CHOICES %}
+                                            <option value="{{ choice.0 }}" {% if profile_company.collaboration_status == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-niche-{{ profile_company.id }}">Niche:</label>
+                                    <select id="edit-niche-{{ profile_company.id }}" name="niche" class="form-control" required>
+                                        {% for choice in profile_company.company.NICHE_CHOICES %}
+                                            <option value="{{ choice.0 }}" {% if profile_company.company.niche == choice.0 %}selected{% endif %}>{{ choice.1 }}</option>
+                                        {% endfor %}
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-deal-amount-{{ profile_company.id }}">Deal Amount:</label>
+                                    <input type="number" id="edit-deal-amount-{{ profile_company.id }}" name="deal_amount" class="form-control" value="{{ profile_company.deal_amount }}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="edit-content-count-{{ profile_company.id }}">Content Count:</label>
+                                    <input type="number" id="edit-content-count-{{ profile_company.id }}" name="content_count" class="form-control" value="{{ profile_company.content_count }}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Save Changes</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/profile_btn.js' %}"></script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

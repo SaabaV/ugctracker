@@ -1,0 +1,161 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Search Results</title>
+    <!-- Подключаем стили -->
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/search_results.css' %}">
+    <link rel="stylesheet" href="{% static 'css/user_profile.css' %}">
+</head>
+<body>
+    <nav class="navbar">
+        <a href="{% url 'home_page' %}" class="home-link">Home</a>
+        <a href="{% url 'user_profile' %}" class="profile-link">Profile</a>
+        <a href="{% url 'add_company' %}" class="add-company-link">Add Company</a>
+        <form action="{% url 'search' %}" method="get" class="search-form">
+            <input type="text" name="q" placeholder="Search companies...">
+            <button type="submit">Search</button>
+        </form>
+    </nav>
+    <div class="container">
+        <h2>Search Results for '{{ search_query }}'</h2>
+        
+        {% if results_count.by_name %}
+            <h3>Results by Name ({{ results_count.by_name }} found)</h3>
+            <div class="companies-container">
+                {% for company in search_results.by_name %}
+                    <div class="card">
+                        {% if company.logo %}
+                            <img src="{{ company.logo.url }}" class="card-img-top" alt="Company Logo">
+                        {% endif %}
+                        <div class="card-body">
+                            <h3 class="card-title">{{ company.name }}</h3>
+                            <hr>
+                            <p class="card-text"><strong>Collaboration Status:</strong> 
+                                <span class="status-label">
+                                    {% if company.collaboration_status == "CC" %}
+                                        <span style="color: green;">{{ company.get_collaboration_status_display }}</span>
+                                    {% elif company.collaboration_status == "DI" %}
+                                        <span style="color: orange;">{{ company.get_collaboration_status_display }}</span>
+                                    {% elif company.collaboration_status == "NC" %}
+                                        <span style="background: linear-gradient(to right, red, green); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ company.get_collaboration_status_display }}</span>
+                                    {% elif company.collaboration_status == "RE" %}
+                                        <span style="color: red;">{{ company.get_collaboration_status_display }}</span>
+                                    {% endif %}
+                                </span>
+                            </p>
+                            <hr>
+                            <p class="card-text"><strong>Niche:</strong> {{ company.get_niche_display }}</p>
+                            <hr>
+                            <p class="card-text"><strong>Contact Person:</strong> {{ company.contact_person }}</p>
+                            <hr>
+                            <p class="card-text"><strong>Website:</strong> <a href="{{ company.website }}">{{ company.website }}</a></p>
+                            <hr>
+                            <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ company.email }}">{{ company.email }}</a></p>
+                            <hr>
+                            <p class="card-text"><strong>Description:</strong> {{ company.info }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No companies with the name "{{ search_query }}" were found.</p>
+        {% endif %}
+
+        {% if results_count.by_status %}
+            <h3>Results by Status ({{ results_count.by_status }} found)</h3>
+            <div class="companies-container">
+                {% for company in search_results.by_status %}
+                    <div class="card">
+                        {% if company.logo %}
+                            <img src="{{ company.logo.url }}" class="card-img-top" alt="Company Logo">
+                        {% endif %}
+                        <div class="card-body">
+                            <h3 class="card-title">{{ company.name }}</h3>
+                            <hr>
+                            <p class="card-text">
+                                <strong>Collaboration Status:</strong> 
+                                <span class="status-label 
+                                    {% if company.collaboration_status == "CC" %}
+                                        status-closed
+                                    {% elif company.collaboration_status == "DI" %}
+                                        status-discussion
+                                    {% elif company.collaboration_status == "NC" %}
+                                        status-not-contacted
+                                    {% elif company.collaboration_status == "RE" %}
+                                        status-rejection
+                                    {% endif %}">
+                                    {{ company.get_collaboration_status_display }}
+                                </span>
+                            </p>
+                            <hr>
+                            <p class="card-text"><strong>Niche:</strong> {{ company.get_niche_display }}</p>
+                            <hr>
+                            <p class="card-text"><strong>Contact Person:</strong> {{ company.contact_person }}</p>
+                            <hr>
+                            <p class="card-text"><strong>Website:</strong> <a href="{{ company.website }}">{{ company.website }}</a></p>
+                            <hr>
+                            <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ company.email }}">{{ company.email }}</a></p>
+                            <hr>
+                            <p class="card-text"><strong>Description:</strong> {{ company.info }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No companies with the status "{{ search_query }}" were found.</p>
+        {% endif %}
+
+        {% if results_count.by_niche %}
+            <h3>Results by Niche ({{ results_count.by_niche }} found)</h3>
+            <div class="companies-container">
+                {% for company in search_results.by_niche %}
+                    <div class="card">
+                        {% if company.logo %}
+                            <img src="{{ company.logo.url }}" class="card-img-top" alt="Company Logo">
+                        {% endif %}
+                        <div class="card-body">
+                            <h3 class="card-title">{{ company.name }}</h3>
+                            <hr>
+                            <p class="card-text"><strong>Collaboration Status:</strong> 
+                                <span class="status-label">
+                                    {% if company.collaboration_status == "CC" %}
+                                        <span style="color: green;">{{ company.get_collaboration_status_display }}</span>
+                                    {% elif company.collaboration_status == "DI" %}
+                                        <span style="color: orange;">{{ company.get_collaboration_status_display }}</span>
+                                    {% elif company.collaboration_status == "NC" %}
+                                        <span style="background: linear-gradient(to right, red, green); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">{{ company.get_collaboration_status_display }}</span>
+                                    {% elif company.collaboration_status == "RE" %}
+                                        <span style="color: red;">{{ company.get_collaboration_status_display }}</span>
+                                    {% endif %}
+                                </span>
+                            </p>
+                            <hr>
+                            <p class="card-text"><strong>Niche:</strong> {{ company.get_niche_display }}</p>
+                            <hr>
+                            <p class="card-text"><strong>Contact Person:</strong> {{ company.contact_person }}</p>
+                            <hr>
+                            <p class="card-text"><strong>Website:</strong> <a href="{{ company.website }}">{{ company.website }}</a></p>
+                            <hr>
+                            <p class="card-text"><strong>Email:</strong> <a href="mailto:{{ company.email }}">{{ company.email }}</a></p>
+                            <hr>
+                            <p class="card-text"><strong>Description:</strong> {{ company.info }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No companies with the niche "{{ search_query }}" were found.</p>
+        {% endif %}
+    </div>
+    <!-- Подключаем скрипты -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{% static 'js/script.js' %}"></script>
+</body>
+</html>
+
+
+

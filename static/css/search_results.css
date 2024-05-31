@@ -1,0 +1,144 @@
+/* static/css/search_results.css */
+
+.add-company-link {
+    text-decoration: none;
+    color: #fff; /* Цвет текста кнопки */
+    font-weight: bold;
+    margin-left: 20px;
+}
+.profile-link {
+    text-decoration: none;
+    color: #fff;
+    font-weight: bold;
+    margin-right: 20px;
+}
+.profile-link:hover, .add-company-link:hover {
+    color: #ccc; /* Цвет при наведении */
+}
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+header {
+    width: 100%;
+    background: #007bff;
+    color: white;
+    padding: 10px 0;
+    text-align: center;
+}
+.container {
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    width: 100%;
+    max-width: 800px; /* Используем стиль из второго блока */
+    margin: 50px auto 0; /* Используем стиль из второго блока */
+    overflow-y: auto;
+    max-height: 1500px;
+}
+.btn {
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    transition-duration: 0.4s;
+}
+
+.btn:hover {
+    background-color: #0056b3;
+    color: white;
+}
+
+.companies-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+}
+
+.card {
+    max-width: 200px;
+    margin: 10px auto;
+    animation: fadeInUp 0.5s ease forwards;
+    border: 1px solid #ddd; /* Добавляем тонкую линию */
+    border-radius: 10px; /* Края слегка закруглены */
+}
+
+.card-body {
+    padding: 10px;
+    text-align: center; /* Центрирование содержимого по горизонтали */
+}
+
+.card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+    transition: transform 0.4s ease, box-shadow 0.3s ease;
+}
+
+.card-img-top {
+    max-width: 100%;
+    height: auto;
+    max-height: 100px;
+    object-fit: cover;
+    margin-bottom: 10px;
+}
+
+.card-title {
+    font-size: 16px;
+}
+
+.card-text {
+    font-size: 14px;
+}
+
+.status-label {
+    color: #212529;
+    font-weight: bold;
+}
+.card-text .status-label.status-closed {
+    color: green; /* Зеленый цвет для "The deal is closed" */
+}
+
+.card-text .status-label.status-discussion {
+    color: orange; /* Оранжевый цвет для "In discussion" */
+}
+
+.card-text .status-label.status-not-contacted {
+    background: linear-gradient(to right, red, green);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.card-text .status-label.status-rejection {
+    color: red; /* Красный цвет для "Rejection" */
+}
+
+.card-text .status-label.status-rejection {
+    color: red; /* Красный цвет для "Rejection" */
+}
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+
