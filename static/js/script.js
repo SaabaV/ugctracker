@@ -150,27 +150,6 @@ $(document).ready(function() {
         });
     });
 
-    $('#save-goal-btn').click(function (e) {
-        e.preventDefault();
-        var goal = $('#goal-select').val();
-        var csrftoken = getCookie('csrftoken');
-
-        $.ajax({
-            url: "/user_profile/save_goal/",
-            type: 'POST',
-            data: {
-                'goal': goal,
-                'csrfmiddlewaretoken': csrftoken
-            },
-            success: function (response) {
-                $('#display-goal').text(response.goal);
-                alert('Goal updated successfully');
-            },
-            error: function (response) {
-                console.log('Error:', response);
-            }
-        });
-    });
 
 
 

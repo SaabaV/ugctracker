@@ -205,6 +205,32 @@ h3 {
     color: red;
 }
 
+.status-summary {
+    display: flex;
+    justify-content: space-around;
+    margin-bottom: 20px;
+}
+
+.status-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    color: black; /* Изменение цвета текста на черный */
+    font-weight: bold;
+}
+
+.status-circle {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: 5px;
+}
+
+
 .companies-container {
     display: flex;
     flex-wrap: wrap;

@@ -23,20 +23,22 @@ header {
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     max-width: 800px;
-    margin: 20px auto 0; /* Уменьшено значение верхнего отступа */
+    margin: 20px auto 0;
 }
 
 .card {
-    max-width: 200px;
-    margin: 10px auto;
+    width: 100%;
+    max-width: 200px; /* увеличено для удобства */
+    margin: 10px;
     animation: fadeInUp 0.5s ease forwards;
     border: 1px solid #ddd;
     border-radius: 10px;
+    overflow: hidden; /* предотвращает выход изображения за края */
+    text-align: center;
 }
 
 .card-body {
     padding: 10px;
-    text-align: center;
 }
 
 .card:hover {
@@ -48,9 +50,10 @@ header {
 .card-img-top {
     max-width: 100%;
     height: auto;
-    max-height: 100px;
-    object-fit: cover;
-    margin-bottom: 10px;
+    max-height: 150px; /* ограничение высоты */
+    object-fit: contain; /* предотвращает искажение изображения */
+    display: block;
+    margin: 0 auto; /* центрирует изображение */
 }
 
 .card-title {
@@ -59,29 +62,6 @@ header {
 
 .card-text {
     font-size: 14px;
-}
-
-.status-label {
-    color: #212529;
-    font-weight: bold;
-}
-
-.card-text .status-label.status-closed {
-    color: green;
-}
-
-.card-text .status-label.status-discussion {
-    color: orange;
-}
-
-.card-text .status-label.status-not-contacted {
-    background: linear-gradient(to right, red, green);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-.card-text .status-label.status-rejection {
-    color: red;
 }
 
 .companies-container {
@@ -118,4 +98,5 @@ header {
     display: inline-block;
     margin: 0 5px;
 }
+
 

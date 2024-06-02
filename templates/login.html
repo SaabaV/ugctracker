@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,10 +6,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>User Login</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    {% load static %}
     <link rel="stylesheet" href="{% static 'css/login.css' %}">
 </head>
 <body>
+    <div class="background-container">
+        <img src="{% static 'media/images/box-packaging-white-background-isometric_44074-6282.png' %}" class="background-image" alt="Background Image 1">
+        <img src="{% static 'media/images/istockphoto-1282219840-612x612.jpg' %}" class="background-image" alt="Background Image 2">
+    </div>
+    <div class="brand-names">
+        <div class="brands"></div>
+    </div>
     <div class="page">
         <div class="container">
             <div class="left">
@@ -41,9 +48,13 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
     <script src="{% static 'js/login.js' %}"></script>
 </body>
 </html>
+
+
+
 
 
 

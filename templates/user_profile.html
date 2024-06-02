@@ -24,6 +24,7 @@
         <h2 class="user-profile-title">My Companies</h2>
         <h3>Welcome, {{ user.username }}!</h3>
         <hr>
+
         <div class="user-profile-container">
             <div class="user-info-container">
                 <p><strong>Username:</strong> {{ user.username }}</p>
@@ -40,6 +41,33 @@
             </div>
         </div>
         <hr>
+            <div class="status-summary">
+                {% if status_counts.CC > 0 %}
+                    <div class="status-item status-closed">
+                        <span class="status-circle status-closed"></span>
+                        <span class="status-count">{{ status_counts.CC }}</span>
+                    </div>
+                {% endif %}
+                {% if status_counts.DI > 0 %}
+                    <div class="status-item status-discussion">
+                        <span class="status-circle status-discussion"></span>
+                        <span class="status-count">{{ status_counts.DI }}</span>
+                    </div>
+                {% endif %}
+                {% if status_counts.NC > 0 %}
+                    <div class="status-item status-not-contacted">
+                        <span class="status-circle status-not-contacted"></span>
+                        <span class="status-count">{{ status_counts.NC }}</span>
+                    </div>
+                {% endif %}
+                {% if status_counts.RE > 0 %}
+                    <div class="status-item status-rejection">
+                        <span class="status-circle status-rejection"></span>
+                        <span class="status-count">{{ status_counts.RE }}</span>
+                    </div>
+                {% endif %}
+            </div>
+
         <div id="edit-profile-form" class="hidden">
             <form id="profile-edit-form" method="post" enctype="multipart/form-data">
                 {% csrf_token %}
@@ -51,7 +79,6 @@
                         <option value="7" {% if user.profile.goal == 7 %}selected{% endif %}>7</option>
                         <option value="10" {% if user.profile.goal == 10 %}selected{% endif %}>10</option>
                     </select>
-                    <button id="save-goal-btn" class="btn btn-primary">Save Goal</button>
                 </div>
                 <div class="form-group">
                     <label for="date-of-birth-input">Date of Birth:</label>
