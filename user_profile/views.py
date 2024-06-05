@@ -71,10 +71,20 @@ def user_profile(request):
     user = request.user
     profile = Profile.objects.get(user=user)
     profile_companies = user.profile.profilecompany_set.all()
+
+    # Подсчет количества компаний по каждому статусу
+    status_counts = {
+        'CC': profile_companies.filter(collaboration_status='CC').count(),
+        'DI': profile_companies.filter(collaboration_status='DI').count(),
+        'NC': profile_companies.filter(collaboration_status='NC').count(),
+        'RE': profile_companies.filter(collaboration_status='RE').count()
+    }
+
     context = {
         'user': user,
         'profile': profile,
         'profile_companies': profile_companies,
+        'status_counts': status_counts,
         'collaboration_status_choices': ProfileCompany.COLLABORATION_STATUS_CHOICES,
     }
     return render(request, 'user_profile.html', context)

@@ -37,7 +37,7 @@ urlpatterns = [
     path('search/', search_view, name='search'),
     path('delete_from_profile/', views.delete_from_profile, name='delete_from_profile'),
     path('edit_company/<int:company_id>/', edit_company, name='edit_company'),
-    path('logout/', LogoutView.as_view(), name='logout'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
     path('upload_avatar/', upload_avatar, name='upload_avatar'),
     path('add_company/', views.add_company_view, name='add_company'),
     path('profile/add_company/', views.add_company_view, name='add_company_view'),

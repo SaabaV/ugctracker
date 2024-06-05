@@ -52,6 +52,17 @@ $(document).ready(function() {
         $('#edit-form-' + companyId).toggle();
     });
 
+    $('.status-circle').click(function() {
+        var status = $(this).data('status');
+        $('.card').each(function() {
+            if (status === '' || $(this).data('status') === status) {
+                $(this).show();
+            } else {
+                $(this).hide();
+            }
+        });
+    });
+
     $('.delete-company').click(function (e) {
         e.preventDefault();
         var companyId = $(this).data('company-id');

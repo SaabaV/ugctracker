@@ -16,13 +16,33 @@
         <a href="{% url 'user_profile' %}" class="profile-link">Profile</a>
         <a href="{% url 'add_company' %}" class="add-company-link">Add Company</a>
     </nav>
-
     <div class="container">
         <h2>All Companies</h2>
-        <form method="get" action="{% url 'home_page' %}">
-            {{ form.as_p }}
-            <button type="submit">Search</button>
-        </form>
+        <div class="search-and-calculator">
+            <form method="get" action="{% url 'home_page' %}">
+                {{ form.as_p }}
+                <button type="submit">Search</button>
+            </form>
+            <div class="calculator-container">
+                <h2>Deal Calculator</h2>
+                <form method="post">
+                    {% csrf_token %}
+                    <div>
+                        {{ calculator_form.price_per_unit.label_tag }} {{ calculator_form.price_per_unit }}
+                        {{ calculator_form.currency }}
+                    </div>
+                    <div>
+                        {{ calculator_form.target_amount.label_tag }} {{ calculator_form.target_amount }}
+                    </div>
+                    <button type="submit" class="btn btn-primary">Calculate</button>
+                </form>
+                {% if result %}
+                    <div class="result">
+                        <p>Required number of content units: {{ result }}</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
         <div class="companies-container">
             {% for company in companies %}
                 <div class="card">
@@ -57,6 +77,7 @@
     <script src="{% static 'js/script.js' %}"></script>
 </body>
 </html>
+
 
 
 
