@@ -1,13 +1,3 @@
-document.addEventListener("DOMContentLoaded", function() {
-    const backgroundImages = document.querySelectorAll(".background-image");
-    backgroundImages.forEach((image, index) => {
-        image.style.animationDelay = `${index * 10}s`;
-    });
-});
-
-
-
-/* Предыдущий код */
 var current = null;
 document.querySelector('#login').addEventListener('focus', function(e) {
   if (current) current.pause();

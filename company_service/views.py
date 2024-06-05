@@ -10,6 +10,7 @@ from django.utils.text import slugify
 from django.contrib.auth.decorators import login_required
 from user_profile.models import ProfileCompany
 
+
 @csrf_exempt
 @login_required
 def add_to_my_company(request):

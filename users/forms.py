@@ -1,6 +1,6 @@
 # users/forms.py
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.forms import UserCreationForm
 from .models import User
 from django.contrib.auth import get_user_model
 
@@ -20,3 +20,4 @@ class RegistrationForm(UserCreationForm):
         if User.objects.filter(username__iexact=username_lower).exists():
             raise forms.ValidationError("This username is already taken.")
         return username
+

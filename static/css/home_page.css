@@ -26,6 +26,12 @@ header {
     margin: 20px auto 0;
 }
 
+.search-and-calculator {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
 .card {
     width: 100%;
     max-width: 200px; /* увеличено для удобства */
@@ -98,5 +104,56 @@ header {
     display: inline-block;
     margin: 0 5px;
 }
+
+.calculator-container {
+    width: 35%;
+    flex: 1;
+    margin-left: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.calculator-container h2 {
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.calculator-container form {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.calculator-container form p {
+    flex: 1;
+    margin-bottom: 15px;
+}
+
+.calculator-container form div select {
+    margin-left: 10px;
+}
+.calculator-container form button {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    margin-left: auto;
+    align-self: flex-start;
+}
+
+.calculator-container form button:hover {
+    background-color: #0056b3;
+}
+
+.result {
+    text-align: center;
+    margin-top: 20px;
+}
+
 
 

@@ -1,6 +1,6 @@
 # users/views.py
 from django.shortcuts import render, redirect
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, login as auth_login
 from django.contrib.auth.forms import AuthenticationForm
 from .forms import RegistrationForm
 from django.contrib.auth.forms import UserCreationForm
@@ -23,6 +23,7 @@ def login_view(request):
     if request.method == 'POST':
         login_input = request.POST.get('login')
         password = request.POST.get('password')
+        remember_me = request.POST.get('remember_me')
 
         # Попробуем аутентифицировать пользователя по username
         user = authenticate(request, username=login_input, password=password)
@@ -36,7 +37,11 @@ def login_view(request):
                 user = None
 
         if user is not None:
-            login(request, user)
+            auth_login(request, user)
+            if remember_me:
+                request.session.set_expiry(1209600)  # 2 weeks
+            else:
+                request.session.set_expiry(0)  # Browser close
             return redirect('user_profile')  # Перенаправление на страницу профиля пользователя после успешного входа
         else:
             form = AuthenticationForm(request.POST)
