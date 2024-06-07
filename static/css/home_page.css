@@ -54,12 +54,12 @@ header {
 }
 
 .card-img-top {
-    max-width: 100%;
+    max-width: 80%;
     height: auto;
-    max-height: 150px; /* ограничение высоты */
+    max-height: 130px; /* ограничение высоты */
     object-fit: contain; /* предотвращает искажение изображения */
     display: block;
-    margin: 0 auto; /* центрирует изображение */
+    margin: 20px; /* центрирует изображение */
 }
 
 .card-title {

@@ -21,30 +21,35 @@ def registration_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        login_input = request.POST.get('login')
-        password = request.POST.get('password')
-        remember_me = request.POST.get('remember_me')
+        form = AuthenticationForm(request, data=request.POST)
 
-        # Попробуем аутентифицировать пользователя по username
-        user = authenticate(request, username=login_input, password=password)
+        if form.is_valid():
+            username = form.cleaned_data.get('username')
+            password = form.cleaned_data.get('password')
+            remember_me = request.POST.get('remember_me')
 
-        if user is None:
-            # Если не получилось, попробуем по email
-            try:
-                username = User.objects.get(email=login_input).username
-                user = authenticate(request, username=username, password=password)
-            except User.DoesNotExist:
-                user = None
+            # Попробуем аутентифицировать пользователя по username
+            user = authenticate(request, username=username, password=password)
 
-        if user is not None:
-            auth_login(request, user)
-            if remember_me:
-                request.session.set_expiry(1209600)  # 2 weeks
+            if user is None:
+                # Если не получилось, попробуем по email
+                try:
+                    user_email = User.objects.get(email=username)
+                    user = authenticate(request, username=user_email.username, password=password)
+                except User.DoesNotExist:
+                    user = None
+
+            if user is not None:
+                auth_login(request, user)
+                if remember_me:
+                    request.session.set_expiry(1209600)  # 2 weeks
+                else:
+                    request.session.set_expiry(0)  # Browser close
+                return redirect(
+                    'user_profile')  # Перенаправление на страницу профиля пользователя после успешного входа
             else:
-                request.session.set_expiry(0)  # Browser close
-            return redirect('user_profile')  # Перенаправление на страницу профиля пользователя после успешного входа
+                form.add_error(None, 'Invalid login credentials')
         else:
-            form = AuthenticationForm(request.POST)
             form.add_error(None, 'Invalid login credentials')
     else:
         form = AuthenticationForm()

@@ -31,8 +31,7 @@ def edit_profile(request):
         if form.is_valid():
             form.save()
             return JsonResponse({
-                'message': 'Profile updated successfully',
-                'date_of_birth': request.user.profile.date_of_birth
+                'message': 'Profile updated successfully'
             })
         else:
             errors = form.errors.as_json()
