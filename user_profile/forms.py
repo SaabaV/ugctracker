@@ -6,7 +6,7 @@ from .models import ProfileCompany, Company
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['avatar', 'goal', 'date_of_birth']
+        fields = ['avatar', 'goal']
         widgets = {
             'goal': forms.Select(choices=Profile.DEAL_GOALS),
         }
@@ -55,10 +55,7 @@ class ProfileCompanyForm(forms.ModelForm):
 class ProfileEditForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['avatar', 'goal', 'date_of_birth']
-        widgets = {
-            'date_of_birth': forms.DateInput(attrs={'type': 'date'}),
-        }
+        fields = ['avatar', 'goal']
 
 
 class AvatarForm(forms.ModelForm):

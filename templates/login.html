@@ -35,8 +35,13 @@
                 <div class="form">
                     <form method="post" action="{% url 'login' %}">
                         {% csrf_token %}
-                        <label for="login">Email or Username</label>
-                        <input type="text" id="login" name="login" required>
+                        {% if form.non_field_errors %}
+                            <div class="alert alert-danger">
+                                {{ form.non_field_errors }}
+                            </div>
+                        {% endif %}
+                        <label for="username">Email or Username</label>
+                        <input type="text" id="username" name="username" required>
                         <label for="password">Password</label>
                         <input type="password" id="password" name="password" required>
                         <input type="submit" id="submit" value="Submit">
@@ -52,6 +57,9 @@
     <script src="{% static 'js/login.js' %}"></script>
 </body>
 </html>
+
+
+
 
 
 

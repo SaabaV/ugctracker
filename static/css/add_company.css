@@ -19,10 +19,10 @@ header {
 
 .container {
     background-color: white;
-    padding: 30px;
+    padding: 50px;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    max-width: 800px;
+    box-shadow: 0 6px 8px rgba(0,0,0,0.1);
+    width: 40%;
     margin: 20px auto 0;
     text-align: center;
 }
@@ -191,5 +191,6 @@ button[type="submit"]:hover {
     text-align: center;
     font-weight: bold;
 }
+
 
 

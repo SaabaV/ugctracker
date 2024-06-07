@@ -16,7 +16,6 @@ class CustomUserManager(UserManager):
 class User(AbstractUser):
     phone_number = models.CharField(max_length=15, blank=True, null=True)
     address = models.CharField(max_length=255, blank=True, null=True)
-
     groups = models.ManyToManyField(Group, verbose_name='groups', blank=True, related_name='custom_user_groups')
     user_permissions = models.ManyToManyField(Permission, verbose_name='user permissions', blank=True, related_name='custom_user_permissions')
 

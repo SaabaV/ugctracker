@@ -63,28 +63,63 @@ $(document).ready(function() {
         });
     });
 
-    $('.delete-company').click(function (e) {
-        e.preventDefault();
-        var companyId = $(this).data('company-id');
-        var deleteUrl = $(this).data('delete-url');
-        if (confirm('Are you sure you want to delete this company from your profile?')) {
-            $.ajax({
-                url: deleteUrl,
-                type: 'POST',
-                data: {
-                    'company_id': companyId,
-                    'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
-                },
-                success: function (response) {
-                    alert('Company deleted successfully');
-                    location.reload();
-                },
-                error: function (xhr, errmsg, err) {
-                    alert('An error occurred: ' + errmsg);
-                }
-            });
+    class DeleteButton {
+        isRunning = false;
+
+        constructor(el) {
+            this.el = el;
+            this.init();
         }
+
+        init() {
+            this.el?.addEventListener("click", this.delete.bind(this));
+
+            const resetTrigger = this.el?.querySelector("[data-anim]");
+            resetTrigger?.addEventListener("animationend", this.reset.bind(this));
+        }
+
+        delete() {
+            this.isRunning = true;
+            this.displayState();
+
+            const companyId = this.el.getAttribute('data-company-id');
+            const deleteUrl = this.el.getAttribute('data-delete-url');
+
+            if (confirm('Are you sure you want to delete this company from your profile?')) {
+                $.ajax({
+                    url: deleteUrl,
+                    type: 'POST',
+                    data: {
+                        'company_id': companyId,
+                        'csrfmiddlewaretoken': $('input[name=csrfmiddlewaretoken]').val()
+                    },
+                    success: (response) => {
+                        alert('Company deleted successfully');
+                        location.reload();
+                    },
+                    error: (xhr, errmsg, err) => {
+                        alert('An error occurred: ' + errmsg);
+                        this.reset();
+                    }
+                });
+            } else {
+                this.reset();
+            }
+        }
+
+        displayState() {
+            this.el.disabled = this.isRunning;
+            this.el.setAttribute("data-running", this.isRunning);
+        }
+
+        reset() {
+            this.isRunning = false;
+            this.displayState();
+        }
+    }
+
+    document.querySelectorAll('.del-btn').forEach(el => {
+        new DeleteButton(el);
     });
 });
 });
-

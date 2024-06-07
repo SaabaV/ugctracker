@@ -145,12 +145,12 @@ label {
 #submit {
   background: #007bff;
   border: none;
-  border-radius: 4px;
+  border-radius: 6px;
   color: #fff;
   cursor: pointer;
   font-size: 16px;
   margin-top: 20px;
-  padding: 10px;
+  padding: 4px;
   transition: background 0.3s;
   text-align: center;
   display: flex;

@@ -15,6 +15,10 @@
         <a href="{% url 'home_page' %}" class="home-link">Home</a>
         <a href="{% url 'user_profile' %}" class="profile-link">Profile</a>
         <a href="{% url 'add_company' %}" class="add-company-link">Add Company</a>
+        <form method="post" action="{% url 'logout' %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-link" style="color: inherit; text-decoration: none;">Logout</button>
+        </form>
     </nav>
     <div class="container">
         <h2>All Companies</h2>
